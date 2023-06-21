@@ -1,18 +1,25 @@
-import './App.css';
 import React from 'react';
-import { Routes, Route} from "react-router-dom";
-import About from "./routes/about";
-import Home from "./routes/home";
-import Navbar from './navbar';
-function App() {
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {Home} from './routes/home.js';
+import {Socials} from './routes/socials.js';
+import {Header} from './header/index.js';
+
+const engine = new Styletron();
+
+export default function App() {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </>
-  );
+    <StyletronProvider value={engine}>
+    <main>
+      <Router>
+      <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/socials' element={<Socials />} />
+        </Routes>
+      </Router>
+    </main>
+    </StyletronProvider>
+  )
 }
-export default App;
