@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {Home} from './routes/home.js';
 import {Socials} from './routes/socials.js';
 import {Header} from './header/index.js';
+import { Timer } from './routes/timer.tsx';
 
 const engine = new Styletron();
 
@@ -17,6 +18,7 @@ export default function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/socials' element={<Socials />} />
+          <Route path='/timer' element={<Timer />} />
         </Routes>
       </Router>
     </main>

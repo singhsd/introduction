@@ -22,6 +22,9 @@ export function Header() {
         <Button>
           <Link to='/socials' style={{ color: 'white' }}>Socials</Link>
         </Button>
+        <Button>
+          <Link to='/timer' style={{ color: 'white' }}>Timer</Link>
+        </Button>
       <div style={{
         display: 'flex',
         gap: '10px',
