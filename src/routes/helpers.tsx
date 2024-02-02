@@ -15,26 +15,6 @@ const divStyle = {
   fontFamily: "cursive"
 };
 
-export function ScoreCard({
-    items,
-  }: {
-    items: { title: string | number; body: string | number }[];
-  }) {
-    return (
-      <div style={divStyle}>
-        <div>
-          {items.map((i) => (
-            <div style={{padding:"5px"}} key={i.title}>
-              <div className="p-4">
-                <div className="stat-title">{i.title}</div>
-                <div className="stat-value sm:text-2xl text-xl">{i.body}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   const getFormikFieldErrors = ({
     formik,

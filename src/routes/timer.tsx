@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { toast } from "react-toastify";
-import {ScoreCard, Select, Input, Period} from './helpers';
+import {Select, Input, Period} from './helpers';
 
 const getTimePeriod = (seconds: number) => {
     let hours = Math.floor(seconds / 3600);
@@ -74,30 +74,25 @@ export const Timer = () => {
             clearInterval(interval);
         } else if (seconds === 0) {
           if (audio !== undefined) {audio.play();}
+
           if (period === "rest") {
             setPeriod("workout")
             setCurrentSubSection(1)
-            if (roundsCompleted === rounds) {
+            return setSeconds(workoutSeconds)
+          } else {
+            // everything is over
+            if (currentSubSection === subSections && roundsCompleted === rounds -1) {
               setTimerState("stopped")
               return clearInterval(interval)
             }
-            return setSeconds(workoutSeconds)
-          }
-          if (currentSubSection == subSections) {
-            // round is over
-            // check if it was last round
-            if (roundsCompleted == rounds - 1) {
-              setTimerState("stopped")
-              return clearInterval(interval)
-            } else {
-              // round is over, head over to rest
+            // a round is over
+            if (currentSubSection === subSections) {
               setPeriod("rest")
               setCurrentSubSection(1)
               setRoundsCompleted(roundsCompleted+1)
               return setSeconds(restSeconds)
             }
-          } else if (currentSubSection < subSections) {
-            // section is over
+            // a subsection is over
             setCurrentSubSection(currentSubSection+1)
             return setSeconds(workoutSeconds)
           }
@@ -119,7 +114,7 @@ export const Timer = () => {
         setSeconds(workoutSeconds);
         setPeriod("workout");
         setRoundsCompleted(0);
-        setSubSections(1)
+        setCurrentSubSection(1);
     };
 
     const handlePeriodChange = (
@@ -174,17 +169,15 @@ export const Timer = () => {
       return (
         <div  style={divStyle}>
           {rounds > 0 && workoutSeconds > 0 && !editWorkout && (
-            <ScoreCard
-              items={[
-                { title: "Rounds", body: rounds },
-                { title: "Workout", body: formatSeconds(workoutSeconds) },
-                { title: "Sub Sections per Round", body: subSections },
-                { title: "Rest", body: formatSeconds(restSeconds) },
-              ]}
-            />
+            <div>
+              <p>Total Rounds: {rounds} </p>
+              <p>Stations per round: {subSections}</p>
+              <p>Time per station: {workoutSeconds}s</p>
+              <p>Time between rounds: {restSeconds}s</p>
+            </div>
           )}
     
-          <div style={{padding: "10px"}}>
+          <div>
             {editWorkout ? (
               <div>
                 <h3>Workout Time</h3>
@@ -274,7 +267,7 @@ export const Timer = () => {
                           {formatSeconds(seconds)}
                         </div>
                         <p>
-                          Mode: {period} {period === "workout" ? (<div>SubSection : {currentSubSection}</div>) : (<div></div>)}
+                          Mode: {period} {period === "workout" ? (<div>Station : {currentSubSection}</div>) : (<div></div>)}
                         </p>
                         <p>
                           Rounds Left: {rounds - roundsCompleted}
